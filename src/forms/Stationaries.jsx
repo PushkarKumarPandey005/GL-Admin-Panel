@@ -3,7 +3,6 @@ import { useAddProduct } from "../hooks/useProduct.js";
 
 const Stationaries = () => {
   const { mutate, isPending } = useAddProduct();
-
   const [preview, setPreview] = useState([]);
 
   const [form, setForm] = useState({
@@ -20,59 +19,39 @@ const Stationaries = () => {
     images: [],
   });
 
-  // ✅ Input change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // ✅ File change + preview
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
-
     setForm((prev) => ({ ...prev, images: files }));
-
-    const previewUrls = files.map((file) =>
-      URL.createObjectURL(file)
-    );
+    const previewUrls = files.map((file) => URL.createObjectURL(file));
     setPreview(previewUrls);
   };
 
-  // ✅ IMPORTANT: cleanup blob URLs (fix console error + memory leak)
   useEffect(() => {
-    return () => {
-      preview.forEach((url) => URL.revokeObjectURL(url));
-    };
+    return () => preview.forEach((url) => URL.revokeObjectURL(url));
   }, [preview]);
 
-  // ✅ Submit
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const formData = new FormData();
 
-    formData.append("title", form.title);
-    formData.append("description", form.description);
-    formData.append("price", Number(form.price));
-    formData.append("discountPrice", Number(form.discountPrice));
-    formData.append("stock", Number(form.stock));
-    formData.append("size", form.size);
-    formData.append("material", form.material);
-    formData.append("weight", form.weight);
-    formData.append("color", form.color);
-    formData.append("brand", form.brand);
-    formData.append("type", "stationery");
-
-    form.images.forEach((img) => {
-      formData.append("images", img);
+    Object.entries(form).forEach(([key, val]) => {
+      if (key !== "images") formData.append(key, val);
     });
+
+    formData.append("type", "stationery");
+    form.images.forEach((img) => formData.append("images", img));
 
     mutate(formData);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-10">
-      {/* LEFT SIDE */}
-      <div className="bg-white/2 mt-10 ml-10 rounded-xl w-200 h-300">
+    <form onSubmit={handleSubmit} className="flex gap-6">
+      {/* LEFT */}
+      <div className="bg-white/2 mt-6 ml-6 rounded-xl w-150 h-220">
 
         {[
           ["title", "Product Title", "text"],
@@ -85,7 +64,7 @@ const Stationaries = () => {
           ["weight", "Weight", "text"],
         ].map(([name, label, type]) => (
           <div key={name}>
-            <label className="text-white ml-10 block mt-5 text-2xl">
+            <label className="text-white ml-6 block mt-4 text-lg">
               {label}
             </label>
 
@@ -94,7 +73,7 @@ const Stationaries = () => {
                 name={name}
                 value={form[name]}
                 onChange={handleChange}
-                className="w-150 h-40 mt-3 rounded bg-white/5 text-white ml-9 p-2"
+                className="w-110 h-24 mt-2 rounded bg-white/5 text-white ml-6 p-2"
               />
             ) : (
               <input
@@ -102,16 +81,16 @@ const Stationaries = () => {
                 name={name}
                 value={form[name]}
                 onChange={handleChange}
-                className="w-100 h-13 mt-3 rounded bg-white/5 text-white ml-9 p-2"
+                className="w-90 h-10 mt-2 rounded bg-white/5 text-white ml-6 p-2"
               />
             )}
           </div>
         ))}
       </div>
 
-      {/* RIGHT SIDE */}
-      <div className="w-160 mt-10 rounded-xl bg-white/2 h-400">
-        <label className="text-white ml-10 block mt-5 text-2xl">
+      {/* RIGHT */}
+      <div className="w-130 mt-6 rounded-xl bg-white/2 h-260">
+        <label className="text-white ml-6 block mt-4 text-lg">
           Product Images
         </label>
 
@@ -119,46 +98,41 @@ const Stationaries = () => {
           type="file"
           multiple
           onChange={handleFileChange}
-          className="w-140 mt-3 ml-9"
+          className="w-110 mt-2 ml-6"
         />
 
-        {/* Preview */}
         {preview.length > 0 && (
-          <div className="flex gap-3 ml-9 mt-3 flex-wrap">
-            {preview.map((src, index) => (
+          <div className="flex gap-3 ml-6 mt-3 flex-wrap">
+            {preview.map((src, i) => (
               <img
-                key={index}
+                key={i}
                 src={src}
                 alt="preview"
-                className="w-24 h-24 object-cover rounded border"
+                className="w-20 h-20 object-cover rounded border"
               />
             ))}
           </div>
         )}
 
-        <label className="text-white ml-10 block mt-10 text-2xl">
-          Color
-        </label>
+        <label className="text-white ml-6 block mt-8 text-lg">Color</label>
         <input
           name="color"
           value={form.color}
           onChange={handleChange}
-          className="w-70 h-13 mt-3 rounded bg-white/5 text-white ml-9 p-2"
+          className="w-70 h-10 mt-2 rounded bg-white/5 text-white ml-6 p-2"
         />
 
-        <label className="text-white ml-10 block mt-5 text-2xl">
-          Brand
-        </label>
+        <label className="text-white ml-6 block mt-4 text-lg">Brand</label>
         <input
           name="brand"
           value={form.brand}
           onChange={handleChange}
-          className="w-70 h-13 mt-3 rounded bg-white/5 text-white ml-9 p-2"
+          className="w-70 h-10 mt-2 rounded bg-white/5 text-white ml-6 p-2"
         />
 
         <button
           type="submit"
-          className="text-white mt-20 ml-50 px-20 border py-4 text-2xl rounded-xl"
+          className="text-white mt-10 ml-30 px-12 border py-2 text-lg rounded-xl"
         >
           {isPending ? "Saving..." : "Save"}
         </button>

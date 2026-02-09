@@ -2,124 +2,121 @@ import { useState } from "react";
 import { useAddProduct } from "../hooks/useProduct.js";
 
 const Properties = () => {
-    const { mutate, isPending } = useAddProduct();
+  const { mutate, isPending } = useAddProduct();
 
-    const [form, setForm] = useState({
-        title: "",
-        description: "",
-        area: "",
-        parking: "",
-        furnished: "",
-        location: "",
-        price: "",
-        ownerContact: "",
-        priceNegotiable: "",
-        images: [],
+  const [form, setForm] = useState({
+    title: "",
+    description: "",
+    area: "",
+    parking: "",
+    furnished: "",
+    location: "",
+    price: "",
+    ownerContact: "",
+    priceNegotiable: "",
+    images: [],
+  });
 
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleImages = (e) => {
+    setForm({ ...form, images: e.target.files });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    Object.entries(form).forEach(([k, v]) => {
+      if (k !== "images") formData.append(k, v);
     });
 
-    const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
+    formData.append("type", "property");
+    for (let i = 0; i < form.images.length; i++) {
+      formData.append("images", form.images[i]);
+    }
 
-    const handleImages = (e) => {
-        setForm({ ...form, images: e.target.files });
-    };
+    mutate(formData);
+  };
 
+  return (
+    <form onSubmit={handleSubmit} className="flex gap-6">
+      {/* LEFT */}
+      <div className="bg-white/2 mt-6 ml-6 rounded-xl w-150 h-220">
 
+        {[
+          ["title", "Property Title"],
+          ["description", "Description", "textarea"],
+          ["area", "Area"],
+          ["parking", "Parking"],
+          ["furnished", "Furnished"],
+          ["location", "Location"],
+          ["price", "Price"],
+          ["ownerContact", "Owner Contact"],
+        ].map(([name, label, type]) => (
+          <div key={name}>
+            <label className="text-white ml-6 block mt-4 text-lg">
+              {label}
+            </label>
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+            {type === "textarea" ? (
+              <textarea
+                name={name}
+                onChange={handleChange}
+                className="w-110 h-24 mt-2 rounded bg-white/5 text-white ml-6 p-2"
+              />
+            ) : (
+              <input
+                name={name}
+                onChange={handleChange}
+                className="w-90 h-10 mt-2 rounded bg-white/5 text-white ml-6 p-2"
+              />
+            )}
+          </div>
+        ))}
 
-        const formData = new FormData();
+        <label className="text-white ml-6 block mt-4 text-lg">
+          Price Negotiable
+        </label>
+        <input
+          type="checkbox"
+          onChange={(e) =>
+            setForm({ ...form, priceNegotiable: e.target.checked })
+          }
+          className="ml-6 mt-2 w-5 h-5"
+        />
+      </div>
 
-        formData.append("title", form.title);
-        formData.append("description", form.description);
-        formData.append("area", form.area);
-        formData.append("parking", form.parking);
-        formData.append("furnished", form.furnished);
-        formData.append("location", form.location);
-        formData.append("price", Number(form.price));
-        formData.append("ownerContact", form.ownerContact);
-        formData.append("priceNegotiable", form.priceNegotiable);
-        formData.append("type", "property");
+      {/* RIGHT */}
+      <div className="w-130 mt-6 rounded-xl bg-white/2 h-260">
 
-        // images inserting
-        for (let i = 0; i < form.images.length; i++) {
-            formData.append("images", form.images[i]);
-        }
+        <label className="text-white ml-6 block mt-4 text-lg">
+          Property Images
+        </label>
+        <input
+          type="file"
+          multiple
+          onChange={handleImages}
+          className="w-110 mt-2 ml-6"
+        />
 
+        {form.images.length > 0 && (
+          <p className="text-white ml-6 mt-2 text-sm">
+            {form.images.length} image(s) selected
+          </p>
+        )}
 
-
-
-        mutate(formData);
-    };
-
-    return (
-        <form onSubmit={handleSubmit} className="flex gap-10">
-            <div className="bg-white/2 mt-10 ml-10 rounded-xl w-200 h-300">
-
-                <label className="text-white ml-10 block mt-5 text-2xl">Property Title</label>
-                <input name="title" onChange={handleChange}
-                    className="w-100 h-13 mt-3 rounded bg-white/5 text-white ml-9 p-2" />
-
-                <label className="text-white ml-10 block mt-5 text-2xl">Description</label>
-                <textarea name="description" onChange={handleChange}
-                    className="w-150 h-40 mt-3 rounded bg-white/5 text-white ml-9 p-2" />
-
-                <label className="text-white ml-10 block mt-5 text-2xl">Area</label>
-                <input name="area" onChange={handleChange}
-                    className="w-100 h-13 mt-3 rounded bg-white/5 text-white ml-9 p-2" />
-
-                <label className="text-white ml-10 block mt-5 text-2xl">Parking</label>
-                <input name="parking" onChange={handleChange}
-                    className="w-100 h-13 mt-3 rounded bg-white/5 text-white ml-9 p-2" />
-
-                <label className="text-white ml-10 block mt-5 text-2xl">Furnished</label>
-                <input name="furnished" onChange={handleChange}
-                    className="w-100 h-13 mt-3 rounded bg-white/5 text-white ml-9 p-2" />
-
-                <label className="text-white ml-10 block mt-5 text-2xl">Location</label>
-                <input name="location" onChange={handleChange}
-                    className="w-100 h-13 mt-3 rounded bg-white/5 text-white ml-9 p-2" />
-
-                <label className="text-white ml-10 block mt-5 text-2xl">Price</label>
-                <input name="price" onChange={handleChange}
-                    className="w-100 h-13 mt-3 rounded bg-white/5 text-white ml-9 p-2" />
-
-                <label className="text-white ml-10 block mt-5 text-2xl">Owner Contact</label>
-                <input name="ownerContact" onChange={handleChange}
-                    className="w-100 h-13 mt-3 rounded bg-white/5 text-white ml-9 p-2" />
-
-                <label className="text-white ml-10 block mt-5 text-2xl">Price Negotiable</label>
-                <input name="priceNegotiable" type="checkbox" onChange={(e) =>
-                    setForm({ ...form, priceNegotiable: e.target.checked })
-                }
-                    className="w-10 h-13 ml-13  mt-3 rounded-xl " />
-            </div>
-
-
-            <div className="w-160 mt-10 rounded-xl bg-white/2 h-400">
-
-                <label className="text-white ml-10 block mt-5 text-2xl">Property Images</label>
-                <input type="file" multiple onChange={handleImages}
-                    className="w-140 mt-3 ml-9" />
-
-                {form.images.length > 0 && (
-                    <p className="text-white ml-9 mt-2">
-                        {form.images.length} image(s) selected
-                    </p>
-                )}
-
-
-
-                <button type="submit"
-                    className="text-white mt-20 ml-50 px-20 border py-4 text-2xl rounded-xl">
-                    {isPending ? "Saving..." : "Save"}
-                </button>
-            </div>
-        </form>
-    );
+        <button
+          type="submit"
+          className="text-white mt-10 ml-30 px-12 border py-2 text-lg rounded-xl"
+        >
+          {isPending ? "Saving..." : "Save"}
+        </button>
+      </div>
+    </form>
+  );
 };
 
 export default Properties;
