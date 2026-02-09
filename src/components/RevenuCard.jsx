@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import {
+  LineChart, Line, XAxis, YAxis, Tooltip,
+  ResponsiveContainer, CartesianGrid
+} from "recharts";
 
-
-// All Data Sets
+// ---- data same as yours ----
 const monthlyData = [
   { month: "Jan", revenue: 40000 },
   { month: "Feb", revenue: 52000 },
@@ -39,102 +41,90 @@ const yearData = [
   { label: "2024", revenue: 730000 },
 ];
 
-const mapAllData = {
-  day: dayData,
-  week: weekData,
-  month: monthlyData,
-  year: yearData,
-};
+const mapAllData = { day: dayData, week: weekData, month: monthlyData, year: yearData };
 
 const RevenuCard = () => {
   const [mode, setMode] = useState("month");
   const chartData = mapAllData[mode];
 
   return (
-    <div className="rounded-2xl">
-      <div className="bg-[#0b1020] rounded-2xl p-5 text-white">
-        
-        {/* Header Row */}
-        <div className="flex items-start justify-between mb-4">
-          <div>
-            <h2 className="text-lg font-semibold">Revenue</h2>
-            <p className="text-xs text-gray-400">{mode} wise revenue</p>
-          </div>
-
-          {/* Toggle Buttons */}
-
-          <div className="flex gap-1 bg-white/5 rounded-full p-1 text-xs">
-            {["day", "week", "month", "year"].map((m) => (
-              <button
-                key={m}
-                onClick={() => setMode(m)}
-                className={`px-3 py-1 rounded-full transition ${
-                  mode === m
-                    ? "bg-white text-black"
-                    : "text-gray-300 hover:bg-white/10"
-                }`}
-              >
-                {m[0].toUpperCase() + m.slice(1)}
-              </button>
-            ))}
-          </div>
+    <div className="bg-[#0b1020] rounded-xl px-3 py-3 text-white shadow-md w-full max-w-137.5 h-76">
+      
+      {/* Header */}
+      <div className="flex items-center justify-between mb-2">
+        <div>
+          <h2 className="text-sm font-semibold">Revenue</h2>
+          <p className="text-[10px] text-gray-400">{mode} wise</p>
         </div>
 
-
-        {/* Summary */}
-        <div className="flex  items-center gap-6 mb-3 text-xs text-gray-300">
-          <div>
-            <p className="uppercase tracking-wide text-[10px] text-gray-400">
-              Current
-            </p>
-            <p className="text-base font-semibold">₹81,000</p>
-          </div>
-          <div className="flex items-center gap-1 text-emerald-400">
-            <span className="text-[10px] bg-emerald-500/10 px-2 py-0.5 rounded-full">
-              +12.4%
-            </span>
-            <span className="text-[11px] text-gray-400">
-              vs previous {mode}
-            </span>
-          </div>
-        </div>
-
-        {/* Chart Section */}
-        <div className="mt-2 h-70 ">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              data={chartData}
-              margin={{ top: 10, right: 15, left: -5, bottom: 0 }}
+        {/* Toggle */}
+        <div className="flex gap-1 bg-white/5 rounded-full p-[2px] text-[10px]">
+          {["day", "week", "month", "year"].map((m) => (
+            <button
+              key={m}
+              onClick={() => setMode(m)}
+              className={`px-2 py-[2px] rounded-full transition ${
+                mode === m
+                  ? "bg-white text-black"
+                  : "text-gray-300 hover:bg-white/10"
+              }`}
             >
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-              <XAxis
-                dataKey={mode === "month" ? "month" : "label"}
-                stroke="#64748b"
-              />
-              <YAxis stroke="#64748b" />
-
-              <Tooltip
-                contentStyle={{
-                  background: "#020617",
-                  border: "1px solid #475569",
-                  fontSize: 12,
-                }}
-                labelStyle={{ color: "#e2e8f0" }}
-                formatter={(value) => [`₹${value.toLocaleString("en-IN")}`, "Revenue"]}
-              />
-
-              <Line
-                type="monotone"
-                dataKey="revenue"
-                stroke="#f97316"
-                strokeWidth={3}
-                dot={{ r: 4, stroke: "#fb923c", strokeWidth: 2, fill: "#0b1020" }}
-                activeDot={{ r: 6 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+              {m[0].toUpperCase()}
+            </button>
+          ))}
         </div>
+      </div>
 
+      {/* Summary */}
+      <div className="flex items-center gap-4 mb-2 text-[11px] text-gray-300">
+        <div>
+          <p className="uppercase text-[9px] text-gray-400">Current</p>
+          <p className="text-sm font-semibold">₹81,000</p>
+        </div>
+        <div className="flex items-center gap-1 text-emerald-400">
+          <span className="text-[9px] bg-emerald-500/10 px-2 py-[1px] rounded-full">
+            +12.4%
+          </span>
+          <span className="text-[10px] text-gray-400">
+            vs prev {mode}
+          </span>
+        </div>
+      </div>
+
+      {/* Chart */}
+      <div className="h-40">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            data={chartData}
+            margin={{ top: 5, right: 10, left: -10, bottom: 0 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+            <XAxis
+              dataKey={mode === "month" ? "month" : "label"}
+              stroke="#64748b"
+              fontSize={10}
+            />
+            <YAxis stroke="#64748b" fontSize={10} />
+
+            <Tooltip
+              contentStyle={{
+                background: "#020617",
+                border: "1px solid #475569",
+                fontSize: 10,
+              }}
+              formatter={(v) => [`₹${v.toLocaleString("en-IN")}`, "Rev"]}
+            />
+
+            <Line
+              type="monotone"
+              dataKey="revenue"
+              stroke="#f97316"
+              strokeWidth={2}
+              dot={false}
+              activeDot={{ r: 4 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );

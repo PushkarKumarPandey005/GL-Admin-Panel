@@ -1,28 +1,34 @@
-import React from 'react'
+import React from 'react';
 
-const CardComponents = ({title, value, icon, gradient} ) => {
+const CardComponents = ({ title, value, icon, gradient }) => {
   return (
     <div
-      className={`p-0.5 rounded-2xl shadow-xl ${gradient} transition-transform duration-300 hover:scale-[1.03]`}
+      className={`p-[1.5px] rounded-xl ${gradient}
+                  w-full max-w-[200px] transition-transform duration-200
+                  will-change-transform`}
     >
-      {/* INNER CARD WITH GLASS EFFECT */}
-      <div className="bg-[#0b1020]/85 backdrop-blur-xl rounded-2xl p-4 flex flex-col gap-4  text-white shadow-lg">
+      <div className="bg-[#0b1020]/90 backdrop-blur-lg rounded-xl
+                      px-3 py-2 text-white shadow-md">
 
-        {/* ICON BADGE */}
-        <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/10 shadow-inner text-2xl">
-          {icon}
+        {/* Icon + Title */}
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 flex items-center justify-center
+                          rounded-lg bg-white/10 text-sm">
+            {icon}
+          </div>
+          <p className="text-[11px] text-gray-300 tracking-wide">
+            {title}
+          </p>
         </div>
 
-        {/* TITLE */}
-        <p className="text-sm text-gray-300 ml-32   tracking-wide">{title}</p>
+        {/* Value */}
+        <p className="text-lg font-semibold mt-2 tracking-wide">
+          {value}
+        </p>
 
-        {/* VALUE */}
-        <p className="text-3xl font-bold flex ml-15   tracking-widest">{value}</p>
       </div>
     </div>
   );
-}
+};
 
-  
-
-export default CardComponents
+export default CardComponents;

@@ -42,7 +42,7 @@ const AdminProfile = () => {
       {/* Profile Image */}
       <div
         onClick={handleImageClick}
-        className="w-28 h-28 rounded-full bg-gray-300 cursor-pointer overflow-hidden flex items-center justify-center"
+        className="w-23 h-23 rounded-full bg-gray-300 cursor-pointer overflow-hidden flex items-center justify-center"
       >
         {image ? (
           <img
@@ -51,7 +51,7 @@ const AdminProfile = () => {
             className="w-full h-full object-cover"
           />
         ) : (
-          <span className="text-black font-bold text-[12px]  text-center  ">Select Profile Picture</span>
+          <span className="text-black font-bold text-[10px]  text-center  ">Select Profile Picture</span>
         )}
       </div>
 
@@ -62,7 +62,7 @@ const AdminProfile = () => {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className=" text-center py-1 text-white  text-xl outline-none "
+            className=" text-center py-1 text-white  outline-none "
           />
           <button
             onClick={handleNameSave}
