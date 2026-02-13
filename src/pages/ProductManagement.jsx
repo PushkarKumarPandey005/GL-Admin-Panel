@@ -1,12 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { VerticalNavbar } from "../components/VerticalNavbar";
 import { useProducts, useDeleteProduct } from "../hooks/useProduct.js";
-import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import {createColumnHelper, flexRender, getCoreRowModel,useReactTable} from "@tanstack/react-table";
 import { useNavigate } from "react-router-dom";
 
 const columnHelper = createColumnHelper();
@@ -129,7 +124,7 @@ return (
           <button
             key={btn.label}
             onClick={() => setTypeFilter(btn.val)}
-            className="bg-[#012032] text-white text-sm px-5 py-1 opacity-75 rounded shadow-[0_-6px_10px_-6px_black,0_6px_10px_-6px_black,6px_0_10px_-6px_black,-6px_0_10px_-6px_black]"
+            className="bg-[#012032] cursor-pointer text-white text-sm px-5 py-1 opacity-75 rounded shadow-[0_-6px_10px_-6px_black,0_6px_10px_-6px_black,6px_0_10px_-6px_black,-6px_0_10px_-6px_black]"
           >
             {btn.label}<br/>
             <span className="font-bold">{btn.count}</span>
@@ -140,7 +135,7 @@ return (
         <div className="relative">
           <button
             onClick={() => setOpenActions(!openActions)}
-            className="bg-[#012032] text-white text-sm px-4 py-2 rounded shadow-[0_-6px_10px_-6px_black,0_6px_10px_-6px_black,6px_0_10px_-6px_black,-6px_0_10px_-6px_black]"
+            className="bg-[#012032] text-white text-sm px-4 py-2 cursor-pointer rounded shadow-[0_-6px_10px_-6px_black,0_6px_10px_-6px_black,6px_0_10px_-6px_black,-6px_0_10px_-6px_black]"
           >
             Actions ▾
           </button>
@@ -152,7 +147,7 @@ return (
                   if (!selectedProduct) return alert("Select a row first");
                   navigate(`/product/view/${selectedProduct._id}`);
                 }}
-                className="block w-full text-left px-4 py-2 hover:bg-white/10 text-sm"
+                className="block w-full text-left px-4 py-2 cursor-pointer hover:bg-white/10 text-sm"
               >
                 View
               </button>
@@ -162,7 +157,7 @@ return (
                   if (!selectedProduct) return alert("Select a row first");
                   navigate(`/product/update/${selectedProduct._id}`);
                 }}
-                className="block w-full text-left px-4 py-2 hover:bg-white/10 text-sm"
+                className="block w-full text-left px-4 py-2 cursor-pointer hover:bg-white/10 text-sm"
               >
                 Update
               </button>
@@ -174,7 +169,7 @@ return (
                     deleteProduct(selectedProduct._id);
                   }
                 }}
-                className="block w-full text-left px-4 py-2 hover:bg-white/10 text-sm"
+                className="block w-full text-left px-4 cursor-pointer py-2 hover:bg-white/10 text-sm"
               >
                 Delete
               </button>
@@ -183,8 +178,8 @@ return (
         </div>
       </div>
 
-      {/* 🔽 TABLE SECTION */}
-      <div className="mt-6 pl-4 h-[520px]">
+      {/* TABLE SECTION */}
+      <div className="mt-6 pl-4 h-130">
 
         {/* Header */}
         <table className="w-full" style={{ tableLayout: "fixed" }}>
@@ -208,7 +203,7 @@ return (
         </table>
 
         {/* Rows */}
-        <div className="h-[440px] overflow-y-auto hide-scrollbar">
+        <div className="h-110 overflow-y-auto hide-scrollbar">
           <table
             className="w-full border-separate border-spacing-y-2"
             style={{ tableLayout: "fixed" }}

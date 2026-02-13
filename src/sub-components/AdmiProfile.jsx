@@ -51,7 +51,7 @@ const AdminProfile = () => {
             className="w-full h-full object-cover"
           />
         ) : (
-          <span className="text-black font-bold text-[10px]  text-center  ">Select Profile Picture</span>
+          <span className="text-black font-bold text-[10px] pt-12 text-center  ">Select Profile Picture</span>
         )}
       </div>
 

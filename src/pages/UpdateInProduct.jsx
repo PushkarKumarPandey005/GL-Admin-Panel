@@ -5,7 +5,6 @@ import { useProduct, useUpdateProduct } from "../hooks/useProduct";
 
 const UpdateInProduct = () => {
   const { id } = useParams();
-
   const { data: product, isLoading } = useProduct(id);
   const { mutate: updateProduct } = useUpdateProduct();
 
@@ -20,7 +19,7 @@ const UpdateInProduct = () => {
     }
   }, [product]);
 
-  if (isLoading) return <p className="text-white p-10">Loading...</p>;
+  if (isLoading) return <p className="text-white p-6">Loading...</p>;
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -34,25 +33,21 @@ const UpdateInProduct = () => {
     setNewImages([...e.target.files]);
   };
 
-  // ✅ IMPORTANT — FormData
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const formData = new FormData();
 
-    // text fields
     Object.entries(form).forEach(([key, value]) => {
       if (!["_id", "__v", "productImg", "createdAt", "updatedAt"].includes(key)) {
         formData.append(key, value);
       }
     });
 
-    // remaining old images
     images.forEach((img) => {
       formData.append("existingImages", img);
     });
 
-    // new images
     newImages.forEach((file) => {
       formData.append("newImages", file);
     });
@@ -63,26 +58,28 @@ const UpdateInProduct = () => {
 
   return (
     <div className="flex">
-      <div className="fixed left-0">
+      {/* Sidebar */}
+      <div className="fixed left-0 top-0 h-screen">
         <VerticalNavbar />
       </div>
 
-      <div className="bg-[#012032] ml-85 w-full min-h-screen p-10 text-white">
-        <h1 className="text-3xl mb-10">Update Product</h1>
+      {/* Main Content */}
+      <div className="bg-[#012032] ml-72 w-full min-h-screen p-6 text-white">
+        <h1 className="text-2xl mb-6">Update Product</h1>
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-10">
+        <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
 
           {/* Existing Images */}
           <div className="col-span-2">
-            <label className="text-xl">Existing Images</label>
-            <div className="flex gap-4 mt-4 flex-wrap">
+            <label className="text-lg">Existing Images</label>
+            <div className="flex gap-3 mt-3 flex-wrap">
               {images.map((img, i) => (
                 <div key={i} className="relative">
-                  <img src={img} className="w-28 h-28 object-cover rounded" />
+                  <img src={img} className="w-24 h-24 object-cover rounded" />
                   <button
                     type="button"
                     onClick={() => removeImage(img)}
-                    className="absolute top-0 right-0 bg-red-600 px-2 rounded"
+                    className="absolute top-0 right-0 bg-red-600 px-2 rounded text-xs"
                   >
                     ✕
                   </button>
@@ -91,17 +88,22 @@ const UpdateInProduct = () => {
             </div>
           </div>
 
-          {/* New Images Preview */}
-          <div className="col-span-2 mt-6">
-            <label className="text-xl">Add New Images</label>
-            <input type="file" multiple onChange={handleNewImages} />
+          {/* New Images */}
+          <div className="col-span-2 mt-4">
+            <label className="text-lg">Add New Images</label>
+            <input
+              type="file"
+              multiple
+              onChange={handleNewImages}
+              className="mt-2"
+            />
 
-            <div className="flex gap-4 mt-4">
+            <div className="flex gap-3 mt-3 flex-wrap">
               {newImages.map((file, i) => (
                 <img
                   key={i}
                   src={URL.createObjectURL(file)}
-                  className="w-28 h-28 object-cover rounded"
+                  className="w-24 h-24 object-cover rounded"
                 />
               ))}
             </div>
@@ -116,13 +118,13 @@ const UpdateInProduct = () => {
 
             return (
               <div key={key} className="flex flex-col">
-                <label className="mb-2 capitalize">{key}</label>
+                <label className="mb-1 capitalize text-sm">{key}</label>
                 <input
                   type="text"
                   name={key}
                   value={value}
                   onChange={handleChange}
-                  className="p-3 rounded bg-white/10 outline-none"
+                  className="p-2 rounded bg-white/10 outline-none text-sm"
                 />
               </div>
             );
@@ -130,7 +132,7 @@ const UpdateInProduct = () => {
 
           <button
             type="submit"
-            className="col-span-2 mt-10 bg-green-600 p-4 rounded text-xl"
+            className="col-span-2 mt-6 bg-green-600 p-3 rounded text-lg"
           >
             Save Changes
           </button>
