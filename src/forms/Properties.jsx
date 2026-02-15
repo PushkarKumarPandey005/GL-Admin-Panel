@@ -14,12 +14,14 @@ const Properties = () => {
     price: "",
     ownerContact: "",
     priceNegotiable: false,
-    purpose: "", // NEW FIELD
+    purpose: "",
+    bhk: "",          // ✅ ADDED
     images: [],
   });
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
     setForm({
       ...form,
       [name]: type === "checkbox" ? checked : value,
@@ -36,7 +38,9 @@ const Properties = () => {
     const formData = new FormData();
 
     Object.entries(form).forEach(([k, v]) => {
-      if (k !== "images") formData.append(k, v);
+      if (k !== "images") {
+        formData.append(k, v);
+      }
     });
 
     formData.append("type", "property");
@@ -84,6 +88,28 @@ const Properties = () => {
             )}
           </div>
         ))}
+
+        {/* BHK FIELD */}
+        <div>
+          <label className="text-white block mt-4 text-lg">
+            BHK
+          </label>
+
+          <select
+            name="bhk"
+            value={form.bhk}
+            onChange={handleChange}
+            className="w-full h-10 mt-2 rounded bg-black/40 text-white p-2"
+            required
+          >
+            <option value="">Select BHK</option>
+            {[1,2,3,4,5,6,7,8].map(num => (
+              <option key={num} value={num}>
+                {num} BHK
+              </option>
+            ))}
+          </select>
+        </div>
 
         {/* PURPOSE FIELD */}
         <div>
