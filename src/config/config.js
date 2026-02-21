@@ -8,3 +8,5 @@ export const firebaseConfig = {
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
+
+export const API_BASE_URL = "https://gltech-backend.onrender.com/api";

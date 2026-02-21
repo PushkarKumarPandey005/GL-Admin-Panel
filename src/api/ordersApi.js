@@ -1,10 +1,11 @@
-const BACKEND_URL = "https://your-backend.onrender.com";
-
+import { API_BASE_URL } from "../config/config.js";
+const BACKEND_URL = API_BASE_URL;
+// https://gltech-backend.onrender.com/api/orders
 export const ordersApi = {
   // Get all orders
   getAllOrders: async () => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/orders`, {
+      const response = await fetch(`${BACKEND_URL}/orders`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -22,7 +23,7 @@ export const ordersApi = {
   // Get order by ID
   getOrderById: async (orderId) => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/orders/${orderId}`, {
+      const response = await fetch(`${BACKEND_URL}/orders/${orderId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -40,7 +41,7 @@ export const ordersApi = {
   // Get orders by email
   getOrdersByEmail: async (email) => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/orders/email/${email}`, {
+      const response = await fetch(`${BACKEND_URL}/orders/email/${email}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +59,7 @@ export const ordersApi = {
   // Update order status
   updateOrderStatus: async (orderId, status) => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/orders/status/${orderId}`, {
+      const response = await fetch(`${BACKEND_URL}/orders/status/${orderId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -77,7 +78,7 @@ export const ordersApi = {
   // Update payment status
   updatePaymentStatus: async (orderId, paymentStatus, transactionId = "") => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/orders/payment/${orderId}`, {
+      const response = await fetch(`${BACKEND_URL}/orders/payment/${orderId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -99,7 +100,7 @@ export const ordersApi = {
   // Get order statistics
   getOrderStats: async () => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/orders/stats`, {
+      const response = await fetch(`${BACKEND_URL}/orders/stats`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
