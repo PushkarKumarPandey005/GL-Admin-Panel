@@ -1,4 +1,4 @@
-const BACKEND_URL = "http://localhost:4000";
+const BACKEND_URL = "https://your-backend.onrender.com";
 
 export const ordersApi = {
   // Get all orders
