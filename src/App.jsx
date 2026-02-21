@@ -6,17 +6,17 @@ import ProductManagement from "./pages/ProductManagement";
 import ViewProduct from "./pages/ViewProduct";
 import UpdateInProduct from "./pages/UpdateInProduct";
 import Profile from "./pages/Profile";
+import Orders from "./pages/Orders";
+import OrderDetail from "./pages/OrderDetail";
 
 import AdminLogin from "./pages/AdminLogin";
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Blog from "./pages/Blog";
 
 function App() {
   return (
     <Routes>
-      {/* Default redirect */}
-      <Route path="*" element={<Navigate to="/" />} />
-
       {/* Public Routes */}
       <Route path="/login" element={<AdminLogin />} />
       <Route path="/register" element={<Register />} />
@@ -50,6 +50,24 @@ function App() {
       />
 
       <Route
+        path="/orders"
+        element={
+          <ProtectedRoute>
+            <Orders />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/order-detail/:orderId"
+        element={
+          <ProtectedRoute>
+            <OrderDetail />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
         path="/product/view/:id"
         element={
           <ProtectedRoute>
@@ -67,6 +85,16 @@ function App() {
         }
       />
 
+       
+      <Route
+        path="/blog"
+        element={
+          <ProtectedRoute>
+            <Blog />
+          </ProtectedRoute>
+        }
+      />
+        
       <Route
         path="/profile"
         element={
@@ -75,6 +103,9 @@ function App() {
           </ProtectedRoute>
         }
       />
+
+      {/* Default redirect - MUST BE LAST */}
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }

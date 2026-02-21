@@ -101,7 +101,7 @@ return (
     
     <div className="bg-[#012032] ml-65 w-full min-h-screen p-6 text-white">
       
-      {/* Filters (tight spacing) */}
+      {/* Filters */}
       <div className="flex gap-4 mb-12 ml-4">
 
         <div className="bg-[#012032] text-white flex items-center opacity-75 px-2 py-1 rounded shadow-[0_-6px_10px_-6px_black,0_6px_10px_-6px_black,6px_0_10px_-6px_black,-6px_0_10px_-6px_black]">

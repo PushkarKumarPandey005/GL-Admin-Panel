@@ -4,7 +4,7 @@ import {
   CartesianGrid, ResponsiveContainer, Legend,
 } from "recharts";
 
-// --- data same ---
+//Weekly data
 const weeklyData = [
   { label: "Mon", mobile: 320, desktop: 200 },
   { label: "Tue", mobile: 280, desktop: 150 },
@@ -14,7 +14,7 @@ const weeklyData = [
   { label: "Sat", mobile: 600, desktop: 300 },
   { label: "Sun", mobile: 350, desktop: 180 },
 ];
-
+// monthly data
 const monthlyData = [
   { label: "Jan", mobile: 4200, desktop: 2100 },
   { label: "Feb", mobile: 5100, desktop: 2400 },
@@ -44,7 +44,7 @@ const VisitorAnalytics = () => {
         <div className="flex gap-1 bg-white/10 rounded-full p-[2px] text-[10px]">
           <button
             onClick={() => setMode("weekly")}
-            className={`px-2 py-[2px] rounded-full ${
+            className={`px-2 py-0.5 rounded-full ${
               mode === "weekly" ? "bg-white text-black" : "text-gray-300"
             }`}
           >
@@ -52,7 +52,7 @@ const VisitorAnalytics = () => {
           </button>
           <button
             onClick={() => setMode("monthly")}
-            className={`px-2 py-[2px] rounded-full ${
+            className={`px-2 py-0.5 rounded-full ${
               mode === "monthly" ? "bg-white text-black" : "text-gray-300"
             }`}
           >

@@ -4,7 +4,6 @@ import {
   ResponsiveContainer, CartesianGrid
 } from "recharts";
 
-// ---- data same as yours ----
 const monthlyData = [
   { month: "Jan", revenue: 40000 },
   { month: "Feb", revenue: 52000 },
@@ -63,7 +62,7 @@ const RevenuCard = () => {
             <button
               key={m}
               onClick={() => setMode(m)}
-              className={`px-2 py-[2px] rounded-full transition ${
+              className={`px-2 py-0.5 rounded-full transition ${
                 mode === m
                   ? "bg-white text-black"
                   : "text-gray-300 hover:bg-white/10"
@@ -82,7 +81,7 @@ const RevenuCard = () => {
           <p className="text-sm font-semibold">₹81,000</p>
         </div>
         <div className="flex items-center gap-1 text-emerald-400">
-          <span className="text-[9px] bg-emerald-500/10 px-2 py-[1px] rounded-full">
+          <span className="text-[9px] bg-emerald-500/10 px-2 py-px rounded-full">
             +12.4%
           </span>
           <span className="text-[10px] text-gray-400">

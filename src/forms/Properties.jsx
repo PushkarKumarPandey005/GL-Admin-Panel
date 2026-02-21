@@ -15,7 +15,7 @@ const Properties = () => {
     ownerContact: "",
     priceNegotiable: false,
     purpose: "",
-    bhk: "",          // ✅ ADDED
+    bhk: "",         
     images: [],
   });
 
@@ -130,7 +130,7 @@ const Properties = () => {
           </select>
         </div>
 
-        {/* PRICE NEGOTIABLE */}
+        {/* Price Negotiable*/}
         <div className="flex items-center gap-3 mt-6">
           <input
             type="checkbox"
@@ -147,7 +147,7 @@ const Properties = () => {
       </div>
 
       {/* RIGHT */}
-      <div className="w-[500px] mt-6 rounded-xl bg-white/5 p-6">
+      <div className="w-125 mt-6 rounded-xl bg-white/5 p-6">
 
         <label className="text-white block mt-4 text-lg">
           Property Images

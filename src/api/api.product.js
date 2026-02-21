@@ -1,4 +1,4 @@
-import api from "../api/api.urlCall.js";
+import api from "./api.urlCall.js";
 
 
 export const fetchProducts = () => api.get("/products");

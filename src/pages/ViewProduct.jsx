@@ -50,7 +50,7 @@ const ViewProduct = () => {
             </div>
           </div>
 
-          {/* RIGHT — Details */}
+          {/* Right — Details */}
           <div className="text-sm space-y-3 w-full max-w-[420px]">
             {Object.entries(product)
               .filter(([key]) =>
@@ -80,7 +80,7 @@ const ViewProduct = () => {
                   });
                 };
 
-                // ✅ FIXED DATE LOGIC
+                //Date Logic
                 const dateFields = ["createdAt", "updatedAt"];
 
                 const displayValue = dateFields.includes(key)

@@ -10,7 +10,7 @@ export const useProducts = () =>
       const res = await fetchProducts();
       return res.data.data;
     },
-  });
+  })
 
 // Add product
 export const useAddProduct = () => {
@@ -19,9 +19,9 @@ export const useAddProduct = () => {
     mutationFn: createProduct,
     onSuccess: () => qc.invalidateQueries({ queryKey: ["products"] }),
   });
-};
+}
 
-// Single product by ID  (NEW)
+// Single product by ID  
 export const useProduct = (id) =>
   useQuery({
     queryKey: ["product", id],
@@ -29,7 +29,7 @@ export const useProduct = (id) =>
       const res = await fetchProductById(id);
       return res.data.data;
     },
-    enabled: !!id, // runs only when id exists
+    enabled: !!id, 
   });
 
 //updating products details
@@ -53,7 +53,7 @@ export const useDeleteProduct = () => {
     mutationFn: (id) => deleteProduct(id),
     onSuccess: async () => {
       await qc.invalidateQueries({ queryKey: ["products"] });
-      await qc.refetchQueries({ queryKey: ["products"] }); // 🔥 important
+      await qc.refetchQueries({ queryKey: ["products"] }); 
     },
   });
 };

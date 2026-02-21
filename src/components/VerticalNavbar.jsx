@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { TbLayoutDashboard } from "react-icons/tb";
 import { MdAddShoppingCart } from "react-icons/md";
 import { MdInventory2, MdPerson, MdSettings, MdLogout } from "react-icons/md";
+import { FaBoxOpen } from "react-icons/fa";
 
 
 
@@ -30,27 +31,36 @@ export const VerticalNavbar = () => {
 
 
         <Link to='/product-management' className='text-white  tracking-wider  ml-7  flex gap-5 items-center font-semibold 
-                                        text-[16px] mt-8'><MdInventory2/>
+                                        text-[16px] mt-8'><MdInventory2 />
           Products Management</Link>
 
 
+        <Link to='/orders' className='text-white  tracking-wider  ml-7  flex gap-5 items-center font-semibold 
+                                      text-[16px] mt-8'><FaBoxOpen />
+          Customer Orders</Link>
+
+        <Link to='/blog' className='text-white  tracking-wider  ml-7  flex gap-5 items-center font-semibold 
+                                      text-[16px] mt-8'><FaBoxOpen />
+          Create Blogs</Link>
+
+
         <Link to='/profile' className='text-white  tracking-wider  ml-7  flex gap-5 items-center font-semibold 
-                                       text-[16px] mt-8'><MdPerson/>
+                                       text-[16px] mt-8'><MdPerson />
           Profile</Link>
 
 
         <Link to='/settings' className='text-white  tracking-wider  ml-7  flex gap-5 items-center font-semibold 
-                                        text-[16px] mt-8'><MdSettings/>
+                                        text-[16px] mt-8'><MdSettings />
           Setings</Link>
 
 
         <Link to='/logout' className='text-white  tracking-wider  ml-7  flex gap-5 items-center font-semibold 
-                                       text-[16px] mt-8'><MdLogout/>
+                                       text-[16px] mt-8'><MdLogout />
           Logout</Link>
 
 
       </div>
 
-</div>
+    </div>
   )
 }

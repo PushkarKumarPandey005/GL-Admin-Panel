@@ -21,7 +21,7 @@ export const useLogin = () => {
   });
 };
 
-// ✅ YE MISSING THA — isi ki wajah se UI crash
+//Nevigate on rejister
 export const useRegister = () => {
   const navigate = useNavigate();
 

@@ -4,7 +4,7 @@ const CardComponents = ({ title, value, icon, gradient }) => {
   return (
     <div
       className={`p-[1.5px] rounded-xl ${gradient}
-                  w-full max-w-[200px] transition-transform duration-200
+                  w-full max-w-50 transition-transform duration-200
                   will-change-transform`}
     >
       <div className="bg-[#0b1020]/90 backdrop-blur-lg rounded-xl

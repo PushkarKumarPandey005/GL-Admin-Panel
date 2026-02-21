@@ -22,7 +22,7 @@ const Profile = () => {
 
         <div className="flex gap-6">
 
-          {/* LEFT PROFILE CARD */}
+          {/* Left profile card*/}
           <div className="ml-14 w-110 h-130 rounded-xl p-6 flex flex-col items-center shadow-[0_-6px_10px_-6px_black,0_6px_10px_-6px_black,6px_0_10px_-6px_black,-6px_0_10px_-6px_black]">
             <img
               src="https://i.pravatar.cc/150?img=12"
@@ -37,7 +37,7 @@ const Profile = () => {
             </button>
           </div>
 
-          {/* RIGHT DETAILS FORM */}
+          {/* Right details form */}
           <div className="w-150 rounded-xl p-6 shadow-[0_-6px_10px_-6px_black,0_6px_10px_-6px_black,6px_0_10px_-6px_black,-6px_0_10px_-6px_black]">
             <h2 className="text-xl mb-4 opacity-80 font-bold tracking-wider">
               Personal Information
@@ -65,7 +65,7 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* SECURITY SECTION */}
+      {/* Security Setting */}
       <div className="w-110 mt-20 h-130 rounded-xl mr-14 p-6 shadow-[0_-6px_10px_-6px_black,0_6px_10px_-6px_black,6px_0_10px_-6px_black,-6px_0_10px_-6px_black] text-white">
         <h2 className="text-xl mb-4 font-bold tracking-wider">
           Security Settings

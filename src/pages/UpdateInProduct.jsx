@@ -81,7 +81,7 @@ const UpdateInProduct = () => {
                     onClick={() => removeImage(img)}
                     className="absolute top-0 right-0 bg-red-600 px-2 rounded text-xs"
                   >
-                    ✕
+                    x
                   </button>
                 </div>
               ))}
