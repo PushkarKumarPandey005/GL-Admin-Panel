@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { VerticalNavbar } from "../components/VerticalNavbar";
-import { createBlog } from "../api/blogsApi"; 
+import { createBlog } from "../api/blogApi.js"; 
 
 export default function CreateBlog() {
   const [loading, setLoading] = useState(false);
