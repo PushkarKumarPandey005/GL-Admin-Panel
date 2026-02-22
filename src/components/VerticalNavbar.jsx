@@ -41,7 +41,7 @@ export const VerticalNavbar = () => {
 
         <Link to='/blog' className='text-white  tracking-wider  ml-7  flex gap-5 items-center font-semibold 
                                       text-[16px] mt-8'><FaBoxOpen />
-          Create Blogs</Link>
+           Blogs</Link>
 
 
         <Link to='/profile' className='text-white  tracking-wider  ml-7  flex gap-5 items-center font-semibold 
