@@ -1,6 +1,6 @@
 import { API_BASE_URL } from "../config/config.js";
 const BACKEND_URL = API_BASE_URL;
-// https://gltech-backend.onrender.com/api/orders
+
 export const ordersApi = {
   // Get all orders
   getAllOrders: async () => {

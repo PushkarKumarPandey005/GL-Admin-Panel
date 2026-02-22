@@ -1,41 +1,41 @@
 import api from "./api.urlCall.js";
 
 // ===============================
-// 🚀 CREATE BLOG
+//  CREATE BLOG
 // ===============================
 export const createBlog = async (payload) => {
-  const { data } = await api.post("/api/blogs", payload);
+  const { data } = await api.post("/blogs", payload);
   return data;
 };
 
 // ===============================
-// 📥 GET ALL BLOGS (admin)
+//  GET ALL BLOGS (admin)
 // ===============================
 export const getAllBlogs = async (params = {}) => {
-  const { data } = await api.get("/api/blogs", { params });
+  const { data } = await api.get("/blogs", { params });
   return data;
 };
 
 // ===============================
-// 🔍 GET BLOG BY ID
+//  GET BLOG BY ID
 // ===============================
 export const getBlogById = async (id) => {
-  const { data } = await api.get(`/api/blogs/${id}`);
+  const { data } = await api.get(`/blogs/${id}`);
   return data;
 };
 
 // ===============================
-// ✏️ UPDATE BLOG
+//  UPDATE BLOG
 // ===============================
 export const updateBlog = async ({ id, payload }) => {
-  const { data } = await api.put(`/api/blogs/${id}`, payload);
+  const { data } = await api.put(`/blogs/${id}`, payload);
   return data;
 };
 
 // ===============================
-// 🗑 DELETE BLOG
+//  DELETE BLOG
 // ===============================
 export const deleteBlog = async (id) => {
-  const { data } = await api.delete(`/api/blogs/${id}`);
+  const { data } = await api.delete(`/blogs/${id}`);
   return data;
 };
