@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { VerticalNavbar } from "../components/VerticalNavbar";
-import { createBlog } from "../api/blogsApi"; // ✅ IMPORTANT
+import { createBlog } from "../api/blogsApi"; 
 
 export default function CreateBlog() {
   const [loading, setLoading] = useState(false);
   const [tagInput, setTagInput] = useState("");
-  const [imageFile, setImageFile] = useState(null); // ✅ NEW
+  const [imageFile, setImageFile] = useState(null); 
 
   const [form, setForm] = useState({
     title: "",
