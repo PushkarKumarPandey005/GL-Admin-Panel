@@ -1,5 +1,5 @@
-import { API_BASE_URL } from "../config/config.js";
-const BACKEND_URL = API_BASE_URL;
+import { VITE_API_BASE_URL } from "../config/config.js";
+const BACKEND_URL = VITE_API_BASE_URL;
 
 export const ordersApi = {
   // Get all orders
