@@ -1,67 +1,77 @@
 import { useEffect, useState } from "react";
 import BlogForm from "./BlogForm.jsx";
-import { getBlogById } from "../../api/blogApi.js";
-import BlogUpdate from "../components/blog/BlogUpdate.jsx";
+import { getBlogBySlug } from "../../api/blogApi.js";
 
-export default function BlogUpdate({ id, onSuccess }) {
-const [loading, setLoading] = useState(true);
-const [blogData, setBlogData] = useState(null);
-const [error, setError] = useState("");
+export default function BlogUpdate({ slug, onSuccess }) {
+  const [loading, setLoading] = useState(true);
+  const [blogData, setBlogData] = useState(null);
+  const [error, setError] = useState("");
 
-// 🔹 fetch blog by id
-const fetchBlog = async () => {
-if (!id) return;
+  // 🔹 fetch blog by slug
+  const fetchBlog = async () => {
+    if (!slug) {
+      setLoading(false);
+      return;
+    }
 
+    try {
+      setLoading(true);
+      setError("");
 
-try {
-  setLoading(true);
-  setError("");
+      const res = await getBlogBySlug(slug);
 
-  const res = await getBlogById(id);
+      const blog =
+        res?.blog ||
+        res?.data?.blog ||
+        res?.data ||
+        res;
 
-  // backend response flexible handling
-  setBlogData(res?.blog || res);
-} catch (err) {
-  console.error(err);
-  setError("Failed to load blog");
-} finally {
-  setLoading(false);
-}
+      setBlogData(blog || null);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load blog");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
+    fetchBlog();
+  }, [slug]);
 
-};
+  // 🔹 loading state
+  if (loading) {
+    return (
+      <div className="w-full py-20 text-center text-gray-400">
+        Loading blog data...
+      </div>
+    );
+  }
 
-useEffect(() => {
-fetchBlog();
-}, [id]);
+  // 🔹 error state
+  if (error) {
+    return (
+      <div className="w-full py-20 text-center text-red-400">
+        {error}
+      </div>
+    );
+  }
 
-// 🔹 loading state
-if (loading) {
-return ( <div className="w-full py-20 text-center text-gray-400">
-Loading blog data... </div>
-);
-}
+  // 🔹 no data
+  if (!blogData) {
+    return (
+      <div className="w-full py-20 text-center text-gray-400">
+        Blog not found
+      </div>
+    );
+  }
 
-// 🔹 error state
-if (error) {
-return ( <div className="w-full py-20 text-center text-red-400">
-{error} </div>
-);
-}
-
-// 🔹 no data
-if (!blogData) {
-return ( <div className="w-full py-20 text-center text-gray-400">
-Blog not found </div>
-);
-}
-
-// 🔹 render form in edit mode
-{view === "edit" && (
-  <BlogUpdate
-    id={selectedId}
-    onSuccess={() => setView("list")}
-  />
-)}
-
+  // 🔹 render edit form (FINAL RETURN ✅)
+  return (
+    <BlogForm
+      mode="edit"
+      initialData={blogData}
+      onSuccess={onSuccess}
+    />
+  );
 }

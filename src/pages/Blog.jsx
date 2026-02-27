@@ -3,9 +3,11 @@ import { VerticalNavbar } from "../components/VerticalNavbar";
 import BlogForm from "../components/blog/BlogForm.jsx";
 import BlogTable from "../components/blog/BlogTable.jsx";
 import BlogView from "../components/blog/BlogView.jsx";
+import BlogUpdate from "../components/blog/BlogUpdate.jsx";
+
 export default function Blog() {
     const [view, setView] = useState("list"); // list | create | edit | view
-    const [selectedId, setSelectedId] = useState(null);
+    const [selectedSlug, setSelectedSlug] = useState(null);
 
     return (
         <div className="flex bg-[#021d2d] min-h-screen text-white overflow-hidden">
@@ -17,22 +19,22 @@ export default function Blog() {
             {/* MAIN CONTENT */}
             <div className="flex-1 ml-64 w-full p-4 sm:p-6 lg:p-8 overflow-y-auto">
 
-                {/* LIST VIEW */}
+                {/* ================= LIST VIEW ================= */}
                 {view === "list" && (
                     <BlogTable
                         onCreate={() => setView("create")}
-                        onEdit={(id) => {
-                            setSelectedId(id);
+                        onEdit={(slug) => {
+                            setSelectedSlug(slug);
                             setView("edit");
                         }}
-                        onView={(id) => {
-                            setSelectedId(id);
+                        onView={(slug) => {
+                            setSelectedSlug(slug);
                             setView("view");
                         }}
                     />
                 )}
 
-                {/* CREATE VIEW */}
+                {/* ================= CREATE VIEW ================= */}
                 {view === "create" && (
                     <BlogForm
                         mode="create"
@@ -40,23 +42,27 @@ export default function Blog() {
                     />
                 )}
 
-                {/* EDIT VIEW (future ready) */}
-                {view === "edit" && (
-                    <BlogForm
-                        mode="edit"
-                        initialData={{ _id: selectedId }}
-                        onSuccess={() => setView("list")}
+                {/* ================= EDIT VIEW ================= */}
+                {view === "edit" && selectedSlug && (
+                    <BlogUpdate
+                        slug={selectedSlug}
+                        onSuccess={() => {
+                            setView("list");
+                            setSelectedSlug(null);
+                        }}
                     />
                 )}
 
-                {/* VIEW VIEW */}
-                {view === "view" && selectedId && (
+                {/* ================= VIEW VIEW ================= */}
+                {view === "view" && selectedSlug && (
                     <BlogView
-                        Id={selectedId}
-                        onBack={() => setView("list")}
+                        slug={selectedSlug}   // ✅ pass slug
+                        onBack={() => {
+                            setView("list");
+                            setSelectedSlug(null);
+                        }}
                     />
                 )}
-
             </div>
         </div>
     );

@@ -1,22 +1,34 @@
 import { useEffect, useState } from "react";
-import { getBlogById } from "../../api/blogApi.js";
+import { getBlogBySlug } from "../../api/blogApi.js";
 
-export default function BlogView({ blogId, onBack }) {
-    console.log("BlogView received id:", blogId);
+export default function BlogView({ slug, onBack }) {
+  console.log("BlogView received slug:", slug);
+
   const [loading, setLoading] = useState(true);
   const [blog, setBlog] = useState(null);
   const [error, setError] = useState("");
 
   // 🔹 fetch blog
   const fetchBlog = async () => {
-    if (!blogId) return;
+    if (!slug) {
+      setLoading(false);
+      return;
+    }
 
     try {
       setLoading(true);
       setError("");
 
-      const res = await getBlogById(blogId);
-      setBlog(res?.blog || res || null);
+      const res = await getBlogBySlug(slug);
+
+      // handle multiple backend shapes safely
+      const blogData =
+        res?.blog ||
+        res?.data?.blog ||
+        res?.data ||
+        res;
+
+      setBlog(blogData || null);
     } catch (err) {
       console.error(err);
       setError("Failed to load blog");
@@ -27,7 +39,7 @@ export default function BlogView({ blogId, onBack }) {
 
   useEffect(() => {
     fetchBlog();
-  }, [blogId]);
+  }, [slug]);
 
   // 🔹 loading
   if (loading) {

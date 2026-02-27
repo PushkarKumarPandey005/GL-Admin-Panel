@@ -17,10 +17,10 @@ export const getAllBlogs = async (params = {}) => {
 };
 
 // ===============================
-//  GET BLOG BY ID
+//  GET BLOG BY SLUG   FIXED
 // ===============================
-export const getBlogById = async (id) => {
-  const { data } = await api.get(`/blogs/${id}`);
+export const getBlogBySlug = async (slug) => {
+  const { data } = await api.get(`/blogs/${slug}`);
   return data;
 };
 

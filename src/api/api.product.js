@@ -1,7 +1,8 @@
 import api from "./api.urlCall.js";
 
 
-export const fetchProducts = () => api.get("/products");
+export const fetchProducts = (page = 1, limit = 10) =>
+  api.get(`/products?page=${page}&limit=${limit}`);
 
 
 //creating new product in DB

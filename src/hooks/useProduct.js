@@ -3,14 +3,20 @@ import {fetchProducts,createProduct,fetchProductById,updateProduct, deleteProduc
 } from "../api/api.product.js";
 
 // All products
-export const useProducts = () =>
+export const useProducts = (page = 1, limit = 10) =>
   useQuery({
-    queryKey: ["products"],
+    queryKey: ["products", page, limit],
     queryFn: async () => {
-      const res = await fetchProducts();
-      return res.data.data;
+      const res = await fetchProducts(page, limit);
+      return res.data;
     },
-  })
+     keepPreviousData: true,
+  refetchOnWindowFocus: false,
+  refetchOnReconnect: false,
+  retry: false,
+  staleTime: 5 * 60 * 1000,
+  
+  });
 
 // Add product
 export const useAddProduct = () => {
