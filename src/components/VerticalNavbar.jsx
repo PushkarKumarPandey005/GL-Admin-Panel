@@ -1,66 +1,133 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { TbLayoutDashboard } from "react-icons/tb";
-import { MdAddShoppingCart } from "react-icons/md";
-import { MdInventory2, MdPerson, MdSettings, MdLogout } from "react-icons/md";
-import { FaBoxOpen } from "react-icons/fa";
-
-
-
-
+import { MdAddShoppingCart, MdInventory2, MdPerson, MdSettings, MdLogout } from "react-icons/md";
+import { FaBoxOpen, FaBlog } from "react-icons/fa";
+import { MdChevronRight } from "react-icons/md";
 import AdminProfile from '../sub-components/AdmiProfile'
 
-export const VerticalNavbar = () => {
-  return (
-    <div className='w-65 h-max-w-screen bg-[#052030] shadow-[0_-6px_10px_-6px_black,0_6px_10px_-6px_black,6px_0_10px_-6px_black,-6px_0_10px_-6px_black]'>
+const navItems = [
+  { to: '/',                   icon: <TbLayoutDashboard size={20} />, label: 'Dashboard' },
+  { to: '/add-product',        icon: <MdAddShoppingCart size={20} />, label: 'Add Product' },
+  { to: '/product-management', icon: <MdInventory2 size={20} />,      label: 'Products Management' },
+  { to: '/orders',             icon: <FaBoxOpen size={20} />,         label: 'Customer Orders' },
+  { to: '/blog',               icon: <FaBlog size={20} />,            label: 'Blogs' },
+  { to: '/profile',            icon: <MdPerson size={20} />,          label: 'Profile' },
+  { to: '/settings',           icon: <MdSettings size={20} />,        label: 'Settings' },
+  { to: '/logout',             icon: <MdLogout size={20} />,          label: 'Logout' },
+];
 
-      <div className=' pt-3 h-40  text-black'>
+export const VerticalNavbar = ({ onToggle }) => {
+  const [expanded, setExpanded] = useState(true);
+  const location = useLocation();
+
+  const handleToggle = () => {
+    setExpanded((prev) => {
+      onToggle?.(!prev);
+      return !prev;
+    });
+  };
+
+  return (
+    <div
+      className={`
+        relative flex flex-col h-screen bg-[#052030]
+        shadow-[4px_0_15px_-4px_rgba(0,0,0,0.5)]
+        transition-all duration-300 ease-in-out
+        ${expanded ? 'w-64' : 'w-16'}
+      `}
+    >
+      {/* Toggle Button */}
+      <button
+        onClick={handleToggle}
+        className="absolute -right-3 top-20 z-50 w-6 h-6 bg-[#0a4060] border border-white/10
+                   rounded-full flex items-center justify-center text-white shadow-md
+                   hover:bg-[#0d5070] transition"
+      >
+        <MdChevronRight
+          size={16}
+          className={`transition-transform duration-300 ${expanded ? 'rotate-180' : 'rotate-0'}`}
+        />
+      </button>
+
+      {/* Profile */}
+      <div className={`pt-3 transition-all duration-300 ${expanded ? 'h-40 opacity-100' : 'h-16 opacity-0 pointer-events-none overflow-hidden'}`}>
         <AdminProfile />
       </div>
 
-      <div className='w-65  h-200 '>
+      {/* Collapsed avatar placeholder */}
+      {!expanded && (
+        <div className="flex justify-center items-center h-16 mt-1">
+          <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white text-sm font-bold">
+            A
+          </div>
+        </div>
+      )}
 
-        <Link to='/' className='text-white  tracking-wider ml-7 flex gap-5 items-center font-semibold 
-                                        text-[16px] mt-8'><TbLayoutDashboard />
-          Dashboard</Link>
+      {/* Nav Links */}
+      <nav className="flex flex-col gap-1 mt-4 px-2 overflow-y-auto flex-1 hide-scrollbar">
+        {navItems.map(({ to, icon, label }) => {
+          const isActive = location.pathname === to;
 
+          return (
+            <div key={to} className="relative group">
+              <Link
+                to={to}
+                className={`
+                  flex items-center gap-3 px-3 py-2.5 rounded-xl
+                  font-medium text-sm tracking-wide transition-all duration-200
+                  ${isActive
+                    ? 'bg-white/15 text-white'
+                    : 'text-gray-300 hover:bg-white/10 hover:text-white'
+                  }
+                  ${!expanded ? 'justify-center' : ''}
+                `}
+              >
+                {/* Icon */}
+                <span className={`flex-shrink-0 ${isActive ? 'text-orange-400' : ''}`}>
+                  {icon}
+                </span>
 
-        <Link to='/add-product' className='text-white  tracking-wider  ml-7  flex gap-5 items-center font-semibold 
-                                        text-[16px] mt-8'><MdAddShoppingCart />
-          Add Product</Link>
+                {/* Label */}
+                {expanded && (
+                  <span className="truncate transition-all duration-200">
+                    {label}
+                  </span>
+                )}
 
+                {/* Active indicator */}
+                {isActive && expanded && (
+                  <span className="ml-auto w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0" />
+                )}
+              </Link>
 
-        <Link to='/product-management' className='text-white  tracking-wider  ml-7  flex gap-5 items-center font-semibold 
-                                        text-[16px] mt-8'><MdInventory2 />
-          Products Management</Link>
+              {/* Tooltip — only when collapsed */}
+              {!expanded && (
+                <div className="
+                  absolute left-full top-1/2 -translate-y-1/2 ml-3
+                  bg-[#0a3050] text-white text-xs font-medium
+                  px-3 py-1.5 rounded-lg shadow-lg border border-white/10
+                  whitespace-nowrap
+                  opacity-0 pointer-events-none
+                  group-hover:opacity-100 group-hover:pointer-events-auto
+                  transition-opacity duration-200 z-50
+                ">
+                  {label}
+                  {/* Arrow */}
+                  <span className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-[#0a3050]" />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </nav>
 
-
-        <Link to='/orders' className='text-white  tracking-wider  ml-7  flex gap-5 items-center font-semibold 
-                                      text-[16px] mt-8'><FaBoxOpen />
-          Customer Orders</Link>
-
-        <Link to='/blog' className='text-white  tracking-wider  ml-7  flex gap-5 items-center font-semibold 
-                                      text-[16px] mt-8'><FaBoxOpen />
-           Blogs</Link>
-
-
-        <Link to='/profile' className='text-white  tracking-wider  ml-7  flex gap-5 items-center font-semibold 
-                                       text-[16px] mt-8'><MdPerson />
-          Profile</Link>
-
-
-        <Link to='/settings' className='text-white  tracking-wider  ml-7  flex gap-5 items-center font-semibold 
-                                        text-[16px] mt-8'><MdSettings />
-          Setings</Link>
-
-
-        <Link to='/logout' className='text-white  tracking-wider  ml-7  flex gap-5 items-center font-semibold 
-                                       text-[16px] mt-8'><MdLogout />
-          Logout</Link>
-
-
-      </div>
-
+      {/* Bottom version text */}
+      {expanded && (
+        <div className="px-4 py-3 text-[10px] text-gray-600 border-t border-white/5">
+          Admin Panel v1.0
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};

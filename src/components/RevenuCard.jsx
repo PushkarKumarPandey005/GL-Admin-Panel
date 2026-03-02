@@ -42,29 +42,31 @@ const yearData = [
 
 const mapAllData = { day: dayData, week: weekData, month: monthlyData, year: yearData };
 
+const currentValues = { day: 18000, week: 46000, month: 81000, year: 730000 };
+
 const RevenuCard = () => {
   const [mode, setMode] = useState("month");
   const chartData = mapAllData[mode];
 
   return (
-    <div className="bg-[#0b1020] rounded-xl px-3 py-3 text-white shadow-md w-full max-w-137.5 h-76">
-      
+    <div className="bg-[#0b1020] rounded-xl px-3 py-3 sm:px-4 sm:py-4 text-white shadow-md w-full">
+
       {/* Header */}
-      <div className="flex items-center justify-between mb-2">
+      <div className="flex items-center justify-between mb-2 sm:mb-3 gap-2">
         <div>
-          <h2 className="text-sm font-semibold">Revenue</h2>
-          <p className="text-[10px] text-gray-400">{mode} wise</p>
+          <h2 className="text-sm sm:text-base font-semibold">Revenue</h2>
+          <p className="text-[10px] sm:text-xs text-gray-400 capitalize">{mode} wise</p>
         </div>
 
         {/* Toggle */}
-        <div className="flex gap-1 bg-white/5 rounded-full p-[2px] text-[10px]">
+        <div className="flex gap-0.5 sm:gap-1 bg-white/5 rounded-full p-[2px] text-[10px] sm:text-xs flex-shrink-0">
           {["day", "week", "month", "year"].map((m) => (
             <button
               key={m}
               onClick={() => setMode(m)}
-              className={`px-2 py-0.5 rounded-full transition ${
+              className={`px-2 sm:px-2.5 py-0.5 rounded-full transition ${
                 mode === m
-                  ? "bg-white text-black"
+                  ? "bg-white text-black font-medium"
                   : "text-gray-300 hover:bg-white/10"
               }`}
             >
@@ -75,45 +77,58 @@ const RevenuCard = () => {
       </div>
 
       {/* Summary */}
-      <div className="flex items-center gap-4 mb-2 text-[11px] text-gray-300">
+      <div className="flex items-center gap-3 sm:gap-4 mb-2 sm:mb-3">
         <div>
-          <p className="uppercase text-[9px] text-gray-400">Current</p>
-          <p className="text-sm font-semibold">₹81,000</p>
+          <p className="uppercase text-[9px] sm:text-[10px] text-gray-400">Current</p>
+          <p className="text-sm sm:text-base font-semibold">
+            ₹{currentValues[mode].toLocaleString("en-IN")}
+          </p>
         </div>
-        <div className="flex items-center gap-1 text-emerald-400">
-          <span className="text-[9px] bg-emerald-500/10 px-2 py-px rounded-full">
+        <div className="flex items-center gap-1.5">
+          <span className="text-[9px] sm:text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-px rounded-full">
             +12.4%
           </span>
-          <span className="text-[10px] text-gray-400">
+          <span className="text-[10px] sm:text-xs text-gray-400">
             vs prev {mode}
           </span>
         </div>
       </div>
 
       {/* Chart */}
-      <div className="h-40">
+      <div className="h-36 sm:h-44">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={chartData}
-            margin={{ top: 5, right: 10, left: -10, bottom: 0 }}
+            margin={{ top: 5, right: 8, left: -15, bottom: 0 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
             <XAxis
               dataKey={mode === "month" ? "month" : "label"}
               stroke="#64748b"
-              fontSize={10}
+              fontSize={9}
+              tick={{ fontSize: 9 }}
             />
-            <YAxis stroke="#64748b" fontSize={10} />
-
+            <YAxis
+              stroke="#64748b"
+              fontSize={9}
+              tick={{ fontSize: 9 }}
+              tickFormatter={(v) =>
+                v >= 100000
+                  ? `${(v / 100000).toFixed(1)}L`
+                  : v >= 1000
+                  ? `${(v / 1000).toFixed(0)}k`
+                  : v
+              }
+            />
             <Tooltip
               contentStyle={{
                 background: "#020617",
                 border: "1px solid #475569",
                 fontSize: 10,
+                borderRadius: "8px",
               }}
-              formatter={(v) => [`₹${v.toLocaleString("en-IN")}`, "Rev"]}
+              formatter={(v) => [`₹${v.toLocaleString("en-IN")}`, "Revenue"]}
             />
-
             <Line
               type="monotone"
               dataKey="revenue"

@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {fetchProducts,createProduct,fetchProductById,updateProduct, deleteProduct
-} from "../api/api.product.js";
+import { fetchProducts, createProduct, fetchProductById, updateProduct, deleteProduct,
+            } from "../api/api.product.js";
 
 // All products
 export const useProducts = (page = 1, limit = 10) =>
@@ -10,12 +10,11 @@ export const useProducts = (page = 1, limit = 10) =>
       const res = await fetchProducts(page, limit);
       return res.data;
     },
-     keepPreviousData: true,
-  refetchOnWindowFocus: false,
-  refetchOnReconnect: false,
-  retry: false,
-  staleTime: 5 * 60 * 1000,
-  
+    placeholderData: (previousData) => previousData, // ✅ TanStack v5 way (replaces keepPreviousData)
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    retry: false,
+    staleTime: 5 * 60 * 1000,
   });
 
 // Add product
@@ -25,9 +24,9 @@ export const useAddProduct = () => {
     mutationFn: createProduct,
     onSuccess: () => qc.invalidateQueries({ queryKey: ["products"] }),
   });
-}
+};
 
-// Single product by ID  
+// Single product by ID
 export const useProduct = (id) =>
   useQuery({
     queryKey: ["product", id],
@@ -35,13 +34,12 @@ export const useProduct = (id) =>
       const res = await fetchProductById(id);
       return res.data.data;
     },
-    enabled: !!id, 
+    enabled: !!id,
   });
 
-//updating products details
+// Update product
 export const useUpdateProduct = () => {
   const qc = useQueryClient();
-
   return useMutation({
     mutationFn: ({ id, data }) => updateProduct(id, data),
     onSuccess: () => {
@@ -51,15 +49,14 @@ export const useUpdateProduct = () => {
   });
 };
 
-//Deleting products
+// Delete product
 export const useDeleteProduct = () => {
   const qc = useQueryClient();
-
   return useMutation({
     mutationFn: (id) => deleteProduct(id),
-    onSuccess: async () => {
-      await qc.invalidateQueries({ queryKey: ["products"] });
-      await qc.refetchQueries({ queryKey: ["products"] }); 
+    onSuccess: () => {
+      // ✅ Just invalidate — no need to also manually refetch, invalidate triggers it
+      qc.invalidateQueries({ queryKey: ["products"] });
     },
   });
 };
